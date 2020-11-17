@@ -159,7 +159,6 @@ lda_df =
       group == "exp" ~ "Experimental_arm"))
 
 lda_df
-
 ```
 
 
@@ -175,7 +174,6 @@ plot =
   geom_line()
 
 plot
-  
 ```
 
 From the spaghetti plot, we can tell that the subjects in the two groups have similar values at the beginning of the study. During the 8 weeks of observation, the subjects in the experimental arm collectively have a higher measurements than subjects in the control arm. 
@@ -199,15 +197,11 @@ t_esti_pvalue = function(n = 30, mu, sigma = 5) { #default sample size and sd
   )
   
 }
-
-
 ```
 
 
 
 ```{r}
-
-
 set.seed(100)
 sim_results_0 =   
   rerun(5000, t_esti_pvalue(mu = 0)) %>% 
@@ -218,10 +212,6 @@ sim_results_0 =
   select(-t_test)
 
 sim_results_0
-
-
-
-
 ```
 
 
@@ -258,7 +248,7 @@ plot_1 =
   filter(p_value < 0.05) %>% 
   count() %>% 
   mutate(
-    proportion = n/ 5000
+    proportion = n / 5000
   ) %>% 
   ggplot(aes(x = mu_value, y = proportion, color = mu_value)) +
   geom_point()+
@@ -272,5 +262,33 @@ plot_1 =
     limits = c(0,6)) 
 
 plot_1
+```
+
+The power increases as the effect size(true value of mu) increases.
+
+
+
+
+Make a plot showing the average estimate of mu on the y axis and the true value of mu on the x axis.
+
+```{r}
+plot_2 =
+  results_df %>%
+  group_by(mu_value) %>% 
+  summarize(
+    average_estimate = mean(mu_hat)
+  ) %>% 
+  ggplot(aes(x = mu_value, y = average_estimate, color = mu_value)) +
+  geom_point()+
+  geom_line() +
+  labs(
+    title = "The average estimate of mu hat versus true value of mu",
+    x = "True value of mu",
+    y = "The average estimate of mu hat") + 
+  scale_x_continuous(
+    breaks = c(0,1,2,3,4,5,6), 
+    limits = c(0,6)) 
+
+plot_2
 ```
 
