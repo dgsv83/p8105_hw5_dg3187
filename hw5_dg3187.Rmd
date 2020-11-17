@@ -323,3 +323,5 @@ plot_3 =
 plot_3
 ```
 
+The sample average of mu hat across tests for which the null is rejected was not equal to the true value of mu when true value of mu equals to 0, 1, 2, and 3. However, as the true value of mu increases, the sample average of mu hat across tests for which the null is rejected gets equal to the true value of mu because the power of the test increases as true mu increases just as what we have shown in the first plot. That is to say, the probability of rejecting a false null hypothesis will increase as the effect size increases. 
+
