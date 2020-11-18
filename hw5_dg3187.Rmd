@@ -166,17 +166,38 @@ lda_df
 make a spaghetti plot showing observations on each subject over time, and comment on differences between groups.
 
 ```{r}
-plot =
+library(patchwork)
+plot_control =
   lda_df %>%
+  filter(group == "Control_arm") %>% 
   unite(subject_id, group, id) %>% 
   ggplot(aes(x = week, y = observed_value, group = subject_id, color = subject_id)) +
   geom_point() +
-  geom_line()
+  geom_line()+
+  scale_y_continuous(
+    limits = c(-3, 8)) +
+  labs(
+    title = "Observed values in the Control arm over 8 weeks")
 
-plot
+
+
+plot_exp =
+  lda_df %>%
+  filter(group == "Experimental_arm") %>% 
+  unite(subject_id, group, id) %>% 
+  ggplot(aes(x = week, y = observed_value, group = subject_id, color = subject_id)) +
+  geom_point() +
+  geom_line() +
+  scale_y_continuous(
+    limits = c(-3, 8)) +
+  labs(
+    title = "Observed values in the Experimental arm over 8 weeks")
+
+
+plot_control + plot_exp
 ```
 
-From the spaghetti plot, we can tell that the subjects in the two groups have similar values at the beginning of the study. During the 8 weeks of observation, the subjects in the experimental arm collectively have a higher measurements than subjects in the control arm. 
+From the spaghetti plot, we can tell that the subjects in the two groups have similar values at the beginning of the study. During the 8 weeks of observation, the subjects in the experimental arm collectively have a higher measurements than subjects in the control arm. Also, the subjects in the experimental arm have their observed value increased over 8 weeks.
 
 
 ## Problem 3
